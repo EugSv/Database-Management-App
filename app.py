@@ -1,20 +1,14 @@
 from tkinter import *
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
+import os
+from dotenv import load_dotenv
 
-# Настройка базы данных
-engine = create_engine("postgresql://postgres:###", echo=True)
+load_dotenv()
+engine = create_engine(os.getenv("DATABASE_URL"))
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
-
-# Модель данных
-class Data(Base):
-    __tablename__ = 'database'
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    surname = Column(String)
-    age = Column(Integer)
 
 Base.metadata.create_all(engine)
 
